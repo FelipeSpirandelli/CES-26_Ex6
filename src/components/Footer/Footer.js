@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div className="shared-container shared-footer">
             <div className="shared-logo">CES-26</div>
-            <p>&copy; {new Date().getFullYear()} Your Company Name</p>
+            <p>&copy; {new Date().getFullYear()} Felipe Spirandelli</p>
         </div>
     );
 };
