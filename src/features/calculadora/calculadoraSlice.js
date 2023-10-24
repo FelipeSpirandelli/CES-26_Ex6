@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import calcular from './calcular';
 
 const initialState = {
-    numero1: 0,
+    numero1: undefined,
     numero2: undefined,
-    operation: '',
+    operation: undefined,
 };
 
 export const calculadoraSlice = createSlice({
@@ -12,6 +12,7 @@ export const calculadoraSlice = createSlice({
     initialState,
     reducers: {
         setNumero1: (state, action) => {
+            console.log(action.payload)
             state.numero1 = action.payload;
         },
         setNumero2: (state, action) => {
@@ -22,8 +23,6 @@ export const calculadoraSlice = createSlice({
         },
         calcularResultado: (state) => {
             state.numero1 = calcular(state.numero1, state.numero2, state.operation);
-            state.numero2 = undefined;
-            state.operation = '';
         },
     },
 });

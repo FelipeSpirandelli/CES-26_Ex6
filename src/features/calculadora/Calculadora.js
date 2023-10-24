@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     setNumero1,
@@ -8,45 +8,72 @@ import {
     selectNumero1,
     selectNumero2,
     selectOperation
-  } from './calculadoraSlice';
-
+} from './calculadoraSlice';
+import './Calculadora.css';
 
 const Calculadora = () => {
-    const [resultado, setResultado] = useState(0);
-    const { numero1, numero2, operacao } = useSelector((state) => state.calculo);
-  
+    const dispatch = useDispatch();
+    const numero1 = useSelector(selectNumero1);
+    const numero2 = useSelector(selectNumero2);
+    const operation = useSelector(selectOperation);
+
     const onNumero1Change = (event) => {
-      setNumero1(event.target.value);
+        const input = event.target.value;
+        if (!/^[0-9]*$/.test(input)) {
+            event.preventDefault();
+        } else {
+            dispatch(setNumero1(input));
+        }
     };
-  
+
     const onNumero2Change = (event) => {
-      setNumero2(event.target.value);
+        const input = event.target.value;
+        if (!/^[0-9]*$/.test(input)) {
+            event.preventDefault();
+        } else {
+            dispatch(setNumero2(input));
+        }
     };
-  
+
     const onOperacaoChange = (event) => {
-      setOperacao(event.target.value);
+        dispatch(setOperacao(event.target.value));
     };
-  
+
     const onCalcular = () => {
-      calcularResultado()
+        dispatch(calcularResultado());
     };
-  
+
     return (
-      <div>
-        <div>
-          <input type="number" placeholder="Número 1" value={numero1} onChange={onNumero1Change} />
-          <input type="number" placeholder="Número 2" value={numero2} onChange={onNumero2Change} />
-          <select value={operacao} onChange={onOperacaoChange}>
-            <option value="soma">+</option>
-            <option value="subtracao">-</option>
-            <option value="multiplicacao">*</option>
-            <option value="divisao">/</option>
-          </select>
+        <div className="calculator-container">
+            <div className="input-container">
+                <input
+                    id="numero1"
+                    className="input-field"
+                    placeholder="Número 1"
+                    value={numero1}
+                    onChange={onNumero1Change}
+                />
+                <input
+                    id="numero2"
+                    className="input-field"
+                    placeholder="Número 2"
+                    value={numero2}
+                    onChange={onNumero2Change}
+                />
+                <select className="select-field" value={operation} onChange={onOperacaoChange}>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+            </div>
+            <div className="calculate-button-container">
+                <button className="calculate-button" onClick={onCalcular}>
+                    Calcular
+                </button>
+            </div>
         </div>
-        <div>
-          <button onClick={onCalcular}>Calcular</button>
-          <output>{resultado}</output>
-        </div>
-      </div>
     );
-  };
+};
+
+export default Calculadora;
